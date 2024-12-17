@@ -56,20 +56,31 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login SAP</title>
     <link href="./css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        footer {
+            margin-top: 50px;
+            background-color: #333;
+            color: white;
+            padding: 10px 0;
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+        }
+    </style> 
 </head>
 <body>
     <div class="container my-4">
         <h1 class="text-center mb-4">Login SAP</h1>
         <form method="POST" class="row g-3">
-            <div class="col-md-4">
+            <div class="md-4">
                 <label for="username" class="form-label">Usuário:</label>
                 <input type="text" class="form-control" name="username" id="username" required>
             </div>
-            <div class="col-md-4">
+            <div class="md-4">
                 <label for="password" class="form-label">Senha:</label>
                 <input type="password" class="form-control" name="password" id="password" required>
             </div>
-            <div class="col-md-4">
+            <div class="md-4">
                 <label for="password" class="form-label">Empresa:</label>
                 <select class="form-select" id="autoSizingSelect" name="companyDB" id="companyDB">
                 <option selected>Escolher...</option>
@@ -88,5 +99,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <div class="alert alert-danger mt-4"><?= htmlspecialchars($error) ?></div>
         <?php endif; ?>
     </div>
+    <footer>
+    &copy; 2024 Alumínio Ramos. Todos os direitos reservados.
+</footer>
 </body>
 </html>

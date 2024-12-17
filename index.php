@@ -47,5 +47,8 @@ if (!isset($_SESSION['user_logged_in']) || $_SESSION['user_logged_in'] !== true)
   </div>
 </nav>
 <h1 class="display-1" align="center">Acesso ao SAP</h1>
+<footer>
+    &copy; 2024 Alumínio Ramos. Todos os direitos reservados.
+</footer>
 </body>
 </html>
