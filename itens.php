@@ -79,6 +79,11 @@ $items = getItems($serviceLayerUrl, $sessionId, $filters, $page, $pageSize);
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Cadastro de Itens</title>
     <link href="./css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body    {
+            background-color:rgba(104, 213, 235, 0.6);
+        }
+    </style>
 </head>
 <body>
     <div class="container my-4">
@@ -148,5 +153,8 @@ $items = getItems($serviceLayerUrl, $sessionId, $filters, $page, $pageSize);
         <a href="index.php" class="btn btn-primary mt-4">Inicio</a>
         <a href="logout.php" class="btn btn-danger mt-4">Sair</a>
     </div>
+    <b>
+        <p align="center">Desenvolvido por Alumínio Ramos</p>
+    </b>
 </body>
 </html>

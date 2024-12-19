@@ -96,6 +96,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST')
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Registro de Trocas</title>
     <link href="./css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body    {
+            background-color:rgba(104, 213, 235, 0.6);
+        }
+    </style>
     <script>
     // Função para buscar o Nome do Cliente com base no CardCode
     document.addEventListener("DOMContentLoaded", function() {
@@ -207,5 +212,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST')
         <a href="index.php" class="btn btn-primary mt-4">Inicio</a>
         <a href="logout.php" class="btn btn-danger mt-4">Sair</a>
     </div>
+    <b>
+        <p align="center">Desenvolvido por Alumínio Ramos</p>
+    </b>
 </body>
 </html>

@@ -66,10 +66,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             bottom: 0;
             width: 100%;
         }
+        body    {
+            background-color:rgba(104, 213, 235, 0.6);
+        }
     </style> 
 </head>
 <body>
-    <div class="container my-4">
+    <div class="container my-4" >
         <h1 class="text-center mb-4">Login SAP</h1>
         <form method="POST" class="row g-3">
             <div class="md-4">

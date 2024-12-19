@@ -15,6 +15,20 @@ if (!isset($_SESSION['user_logged_in']) || $_SESSION['user_logged_in'] !== true)
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>SAP</title>
     <link href="./css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        footer {
+            margin-top: 50px;
+            background-color: #333;
+            color: white;
+            padding: 10px 0;
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+        }
+        body    {
+            background-color:rgba(104, 213, 235, 0.6);
+        }
+    </style> 
 </head>
 <body>
 <nav class="navbar navbar-expand-lg bg-body-tertiary">

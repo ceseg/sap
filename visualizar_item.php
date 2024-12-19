@@ -62,6 +62,11 @@ $itemDetails = getItemDetails($serviceLayerUrl, $sessionId, $itemCode);
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Detalhes do Item</title>
     <link href="./css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body    {
+            background-color:rgba(104, 213, 235, 0.6);
+        }
+    </style>
 </head>
 <body>
     <div class="container my-4">
@@ -80,5 +85,8 @@ $itemDetails = getItemDetails($serviceLayerUrl, $sessionId, $itemCode);
         <?php endif; ?>
         <a href="itens.php" class="btn btn-primary mt-4">Voltar</a>
     </div>
+    <b>
+        <p align="center">Desenvolvido por Alumínio Ramos</p>
+    </b>
 </body>
 </html>

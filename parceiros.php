@@ -79,6 +79,20 @@ $businessPartners = getBusinessPartners($serviceLayerUrl, $sessionId, $filters, 
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Parceiros de Negócios</title>
     <link href="./css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        footer {
+            margin-top: 50px;
+            background-color: #333;
+            color: white;
+            padding: 10px 0;
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+        }
+        body    {
+            background-color:rgba(104, 213, 235, 0.6);
+        }
+    </style> 
 </head>
 <body>
     <div class="container my-4">
@@ -144,9 +158,12 @@ $businessPartners = getBusinessPartners($serviceLayerUrl, $sessionId, $filters, 
                 <?php endif; ?>
             </ul>
         </nav>
-
         <a href="index.php" class="btn btn-primary mt-4">Inicio</a>
         <a href="logout.php" class="btn btn-danger mt-4">Sair</a>
     </div>
+    <b>
+        <p align="center">Desenvolvido por Alumínio Ramos</p>
+    </b>
+
 </body>
 </html>
