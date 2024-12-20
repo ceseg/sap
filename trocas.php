@@ -73,7 +73,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST')
             "U_CardCode" => $_POST['U_CardCode'] ?? '',
             "U_CardName" => $_POST['U_CardName'] ?? '',
             "U_SWW" => $_POST['U_SWW'] ?? '',
+            "U_ItemCode" => $_POST['U_ItemCode'] ?? '',
             "U_Description" => $_POST['U_Description'] ?? '',
+            "U_Quantity" => $_POST['U_Quantity'] ?? '',
             "U_Date" => $dataFormatada,
             "U_Reason" => $_POST['U_Reason'] ?? ''
                 ];
@@ -138,7 +140,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST')
 <script>
     // Função para buscar o Nome do Item com base no ItemCode
     document.addEventListener("DOMContentLoaded", function() {
-        document.getElementById("U_SWW").addEventListener("change", function() {
+        document.getElementById("U_ItemCode").addEventListener("change", function() {
             const itemCode = this.value.trim();
             const itemNameField = document.getElementById("U_Description");
 
@@ -176,11 +178,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST')
         <?= $message ?>
 
         <form class="row g-3" method="POST">
-            <div class="col-md-6">
+            <div class="col-md-2">
                 <label for="Name" class="form-label">Numero do Pedido:</label>
                 <input type="text" class="form-control" id="Name" name="Name" required>
             </div>
-            <div class="col-md-6">
+            <div class="col-md-4">
                 <label for="U_CardCode" class="form-label">Código do Cliente:</label>
                 <input type="text" class="form-control" id="U_CardCode" name="U_CardCode" value="<?php echo htmlspecialchars($cardCode); ?>" required>
             </div>
@@ -188,19 +190,27 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST')
                 <label for="U_CardName" class="form-label">Nome do Cliente:</label>
                 <input type="text" class="form-control" id="U_CardName" name="U_CardName" value="<?php echo htmlspecialchars($cardName); ?>" required>
             </div>
-            <div class="col-md-6">
+            <div class="col-md-2">
                 <label for="U_SWW" class="form-label">Referencia do Item:</label>
                 <input type="text" class="form-control" id="U_SWW" name="U_SWW" required>
             </div>
-            <div class="col-md-6">
+            <div class="col-md-2">
+                <label for="U_ItemCode" class="form-label">Código do Item:</label>
+                <input type="text" class="form-control" id="U_ItemCode" name="U_ItemCode" required>
+            </div>
+            <div class="col-md-8">
                 <label for="U_Description" class="form-label">Descrição do Item:</label>
                 <input type="text" class="form-control" id="U_Description" name="U_Description" required>
             </div>
-            <div class="col-md-6">
+            <div class="col-md-2">
+                <label for="U_Quantity" class="form-label">Quantidade do Item:</label>
+                <input type= "number" class="form-control" id="U_Quantity" name="U_Quantity" required>
+            </div>
+            <div class="col-md-2">
                 <label for="U_Date" class="form-label">Data da Troca:</label>
                 <input type="date" class="form-control" id="U_Date" name="U_Date" value="<?= htmlspecialchars($currentDate) ?>" required>
             </div>
-            <div class="col-md-6">
+            <div class="col-md-8">
                 <label for="U_Reason" class="form-label">Motivo da Troca:</label>
                 <textarea class="form-control" id="U_Reason" name="U_Reason" rows="3" required></textarea>
             </div>
