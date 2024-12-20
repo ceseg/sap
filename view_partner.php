@@ -65,10 +65,10 @@ $partnerDetails = getBusinessPartnerDetails($serviceLayerUrl, $sessionId, $cardC
     <title>Detalhes do Parceiro</title>
     <link href="./css/bootstrap.min.css" rel="stylesheet">
     <style>
-        body    {
-            background-color:rgba(104, 213, 235, 0.6);
+        body {
+            background-color: rgba(104, 213, 235, 0.6);
         }
-    </style> 
+    </style>
 </head>
 <body>
     <div class="container my-4">
@@ -80,20 +80,40 @@ $partnerDetails = getBusinessPartnerDetails($serviceLayerUrl, $sessionId, $cardC
                     <h5 class="card-title"><?= htmlspecialchars($partnerDetails['CardName']) ?></h5>
                     <p class="card-text">
                         <strong>Código:</strong> <?= htmlspecialchars($partnerDetails['CardCode']) ?><br>
-                        <strong>Endereço:</strong> <?= htmlspecialchars($partnerDetails['Address']) ?><br>
-                        <strong>Email:</strong> <?= htmlspecialchars($partnerDetails['EmailAddress']) ?><br>
-                        <strong>Telefone:</strong> <?= htmlspecialchars($partnerDetails['Phone1']) ?>
+                        <strong>CNPJ:</strong> <?= htmlspecialchars($partnerDetails['FederalTaxID'] ?? 'Não informado') ?><br>
+                        <strong>Telefone:</strong> <?= htmlspecialchars($partnerDetails['Phone1'] ?? 'Não informado') ?><br>
+                        <strong>Email:</strong> <?= htmlspecialchars($partnerDetails['EmailAddress'] ?? 'Não informado') ?><br>
                     </p>
                 </div>
-                <!-- Na página de detalhes do parceiro de negócios -->
-<a href="trocas.php?CardCode=<?= urlencode($partnerDetails['CardCode']) ?>&CardName=<?= urlencode($partnerDetails['CardName']) ?>" class="btn btn-warning btn-sm">Registrar Troca</a>
-
             </div>
+
+            <!-- Exibir endereços -->
+            <?php if (!empty($partnerDetails['BPAddresses'])): ?>
+                <h3 class="mt-4">Endereços:</h3>
+                <?php foreach ($partnerDetails['BPAddresses'] as $address): ?>
+                    <div class="card mb-2">
+                        <div class="card-body">
+                            <strong>Tipo:</strong> <?= htmlspecialchars($address['AddressType'] === 'bo_BillTo' ? 'Cobrança' : 'Entrega') ?><br>
+                            <strong>Nome do Endereço:</strong> <?= htmlspecialchars($address['AddressName'] ?? 'Não informado') ?><br>
+                            <strong>Rua:</strong> <?= htmlspecialchars($address['Street'] ?? 'Não informado') ?><br>
+                            <strong>Número:</strong> <?= htmlspecialchars($address['StreetNo'] ?? 'Não informado') ?><br>
+                            <strong>Bairro:</strong> <?= htmlspecialchars($address['Block'] ?? 'Não informado') ?><br>
+                            <strong>Cidade:</strong> <?= htmlspecialchars($address['City'] ?? 'Não informado') ?><br>
+                            <strong>CEP:</strong> <?= htmlspecialchars($address['ZipCode'] ?? 'Não informado') ?><br>
+                            <strong>País:</strong> <?= htmlspecialchars($address['Country'] ?? 'Não informado') ?><br>
+                        </div>
+                    </div>
+                <?php endforeach; ?>
+            <?php else: ?>
+                <p class="text-warning">Nenhum endereço registrado.</p>
+            <?php endif; ?>
+
+            <!-- Botão de registrar troca -->
+            
         <?php else: ?>
             <p class="text-danger text-center">Erro ao buscar os detalhes do parceiro.</p>
         <?php endif; ?>
-        
-
+        <a href="trocas.php?CardCode=<?= urlencode($partnerDetails['CardCode']) ?>&CardName=<?= urlencode($partnerDetails['CardName']) ?>" class="btn btn-warning  mt-4">Registrar Troca</a>
         <a href="parceiros.php" class="btn btn-primary mt-4">Voltar</a>
     </div>
     <b>
