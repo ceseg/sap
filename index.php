@@ -16,53 +16,77 @@ if (!isset($_SESSION['user_logged_in']) || $_SESSION['user_logged_in'] !== true)
     <title>SAP</title>
     <link href="./css/bootstrap.min.css" rel="stylesheet">
     <style>
+        body {
+            background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), 
+                        url('./img/background.jpg') no-repeat center center fixed; /* Transparência com blend */
+            background-size: cover; /* Ajusta a imagem para cobrir todo o fundo */
+            color: #fff; /* Texto branco para contraste */
+            font-family: 'Arial', sans-serif;
+        }
+        nav {
+            background-color: rgba(0, 0, 0, 0.8); /* Fundo semi-transparente no navbar */
+        }
         footer {
             margin-top: 50px;
-            background-color: #333;
+            background-color: rgba(0, 0, 0, 0.8); /* Fundo semi-transparente no footer */
             color: white;
             padding: 10px 0;
             position: fixed;
             bottom: 0;
             width: 100%;
+            text-align: center;
         }
-        body    {
-            background-color:rgba(104, 213, 235, 0.6);
+        h1 {
+            margin-top: 20%;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7); /* Sombra para destacar o título */
         }
-    </style> 
+        .navbar-brand img {
+            filter: drop-shadow(2px 2px 5px rgba(0, 0, 0, 0.7)); /* Sombra no logo */
+        }
+        .nav-link {
+            color: white !important;
+        }
+        .nav-link:hover {
+            text-decoration: underline;
+        }
+    </style>
 </head>
 <body>
-<nav class="navbar navbar-expand-lg bg-body-tertiary">
-  <div class="container-fluid">
-    <a class="navbar-brand" href="./index.php">
-    <img src="./img/logo.png"  alt="Bootstrap" width="90" height="44">
-    </a>
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"></span>
-    </button>
-    <div class="collapse navbar-collapse" id="navbarNavDropdown">
-      <ul class="navbar-nav">
-        <li class="nav-item">
-          <a class="nav-link active" aria-current="page" href="./index.php">Home</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="./parceiros.php">Parceiros de Negócios</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="./itens.php">Itens</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="./trocas.php">Trocas</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="./logout.php">Sair</a>
-        </li>
-      </ul>
+<nav class="navbar navbar-expand-lg navbar-dark">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="./index.php">
+            <img src="./img/logo.png" alt="Bootstrap" width="90" height="44">
+        </a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNavDropdown">
+            <ul class="navbar-nav">
+                <li class="nav-item">
+                    <a class="nav-link active" aria-current="page" href="./index.php">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="./parceiros.php">Parceiros de Negócios</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="./itens.php">Itens</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="./trocas.php">Trocas</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="./logout.php">Sair</a>
+                </li>
+            </ul>
+        </div>
     </div>
-  </div>
 </nav>
-<h1 class="display-1" align="center">Acesso ao SAP</h1>
+<div class="container text-center">
+    <h1 class="display-1">Acesso ao SAP</h1>
+</div>
 <footer>
     &copy; 2024 Alumínio Ramos. Todos os direitos reservados.
 </footer>
+<script src="./js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

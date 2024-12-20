@@ -17,7 +17,6 @@ $filters = [
 function getItems($serviceLayerUrl, $sessionId, $filters, $page, $pageSize) {
     $skip = ($page - 1) * $pageSize;
 
-    // Construir a query OData para filtros
     $filterString = "";
     if (!empty($filters['ItemCode'])) {
         $filterString .= "startswith(ItemCode,'{$filters['ItemCode']}')";
@@ -29,10 +28,8 @@ function getItems($serviceLayerUrl, $sessionId, $filters, $page, $pageSize) {
 
     $filterParam = $filterString ? "&\$filter=$filterString" : "";
 
-    // URL com filtros, paginação e ordenação
     $url = $serviceLayerUrl . "Items?\$orderby=ItemCode&\$top=$pageSize&\$skip=$skip$filterParam";
 
-    // Configurando cabeçalhos e contexto para a requisição
     $headers = [
         "Content-Type: application/json",
         "Cookie: B1SESSION=$sessionId"
@@ -68,7 +65,6 @@ function getItems($serviceLayerUrl, $sessionId, $filters, $page, $pageSize) {
     }
 }
 
-// Buscando dados dos Itens
 $items = getItems($serviceLayerUrl, $sessionId, $filters, $page, $pageSize);
 ?>
 
@@ -80,38 +76,61 @@ $items = getItems($serviceLayerUrl, $sessionId, $filters, $page, $pageSize);
     <title>Cadastro de Itens</title>
     <link href="./css/bootstrap.min.css" rel="stylesheet">
     <style>
-        body    {
-            background-color:rgba(104, 213, 235, 0.6);
+        body {
+            background: linear-gradient(45deg, #007bff, #17a2b8);
+            color: #fff;
+            min-height: 100vh;
+        }
+        .container {
+            background: #fff;
+            color: #333;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+        }
+        .table-striped tbody tr:nth-of-type(odd) {
+            background-color: #f9f9f9;
+        }
+        .table thead {
+            background-color: #343a40;
+            color: #fff;
+        }
+        .pagination .page-link {
+            color: #007bff;
+        }
+        .pagination .page-item.active .page-link {
+            background-color: #007bff;
+            border-color: #007bff;
         }
     </style>
 </head>
 <body>
-    <div class="container my-4">
+    <div class="container my-5">
         <h1 class="text-center mb-4">Cadastro de Itens</h1>
 
         <!-- Formulário de filtros -->
         <form class="row g-3 mb-4" method="GET">
             <div class="col-md-6">
-                <label for="ItemCode" class="form-label">Código do Item:</label>
-                <input type="text" class="form-control" name="ItemCode" id="ItemCode" value="<?= htmlspecialchars($filters['ItemCode']) ?>">
+                <label for="ItemCode" class="form-label">Código do Item</label>
+                <input type="text" class="form-control" name="ItemCode" id="ItemCode" value="<?= htmlspecialchars($filters['ItemCode']) ?>" placeholder="Digite o código do item">
             </div>
             <div class="col-md-6">
-                <label for="ItemName" class="form-label">Descrição do Item:</label>
-                <input type="text" class="form-control" name="ItemName" id="ItemName" value="<?= htmlspecialchars($filters['ItemName']) ?>">
+                <label for="ItemName" class="form-label">Descrição do Item</label>
+                <input type="text" class="form-control" name="ItemName" id="ItemName" value="<?= htmlspecialchars($filters['ItemName']) ?>" placeholder="Digite a descrição do item">
             </div>
             <div class="col-12 text-center">
-                <button type="submit" class="btn btn-primary">Buscar</button>
+                <button type="submit" class="btn btn-primary px-4">Buscar</button>
             </div>
         </form>
 
         <!-- Resultados -->
         <div class="table-responsive">
             <table class="table table-striped">
-                <thead class="table-dark">
+                <thead>
                     <tr>
                         <th>Código do Item</th>
                         <th>Descrição</th>
-                        <th>Ações</th>
+                        <th class="text-center">Ações</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -120,14 +139,14 @@ $items = getItems($serviceLayerUrl, $sessionId, $filters, $page, $pageSize);
                             <tr>
                                 <td><?= htmlspecialchars($item['ItemCode']) ?></td>
                                 <td><?= htmlspecialchars($item['ItemName']) ?></td>
-                                <td>
-                                <a href="visualizar_item.php?ItemCode=<?= urlencode($item['ItemCode']) ?>" class="btn btn-info btn-sm">Visualizar</a>
+                                <td class="text-center">
+                                    <a href="visualizar_item.php?ItemCode=<?= urlencode($item['ItemCode']) ?>" class="btn btn-info btn-sm">Visualizar</a>
                                 </td>
                             </tr>
                         <?php endforeach; ?>
                     <?php else: ?>
                         <tr>
-                            <td colspan="2" class="text-center">Nenhum item encontrado.</td>
+                            <td colspan="3" class="text-center">Nenhum item encontrado.</td>
                         </tr>
                     <?php endif; ?>
                 </tbody>
@@ -149,12 +168,14 @@ $items = getItems($serviceLayerUrl, $sessionId, $filters, $page, $pageSize);
                 <?php endif; ?>
             </ul>
         </nav>
-        
-        <a href="index.php" class="btn btn-primary mt-4">Inicio</a>
-        <a href="logout.php" class="btn btn-danger mt-4">Sair</a>
+
+        <div class="d-flex justify-content-between mt-4">
+            <a href="index.php" class="btn btn-primary">Início</a>
+            <a href="logout.php" class="btn btn-danger">Sair</a>
+        </div>
+        <footer class="text-center mt-4">
+            <small class="text-muted">Desenvolvido por Alumínio Ramos</small>
+        </footer>
     </div>
-    <b>
-        <p align="center">Desenvolvido por Alumínio Ramos</p>
-    </b>
 </body>
 </html>

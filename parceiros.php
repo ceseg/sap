@@ -5,34 +5,35 @@ if (empty($_SESSION['B1SESSION'])) {
     exit;
 }
 
+// Configurações iniciais
 $sessionId = $_SESSION['B1SESSION'];
 $serviceLayerUrl = "https://192.168.0.10:50000/b1s/v1/";
-$pageSize = 20; // Número de resultados por página
-$page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
+$pageSize = 20;
+$page = isset($_GET['page']) ? max(1, (int)$_GET['page']) : 1;
 $filters = [
-    'CardCode' => $_GET['CardCode'] ?? '',
-    'CardName' => $_GET['CardName'] ?? ''
+    'CardCode' => trim($_GET['CardCode'] ?? ''),
+    'CardName' => trim($_GET['CardName'] ?? '')
 ];
 
+/**
+ * Função para obter Parceiros de Negócios usando o Service Layer do SAP.
+ */
 function getBusinessPartners($serviceLayerUrl, $sessionId, $filters, $page, $pageSize) {
     $skip = ($page - 1) * $pageSize;
 
-    // Construir a query OData para filtros
-    $filterString = "";
+    // Montar filtros OData
+    $filterClauses = [];
     if (!empty($filters['CardCode'])) {
-        $filterString .= "startswith(CardCode,'{$filters['CardCode']}')";
+        $filterClauses[] = "startswith(CardCode,'" . urlencode($filters['CardCode']) . "')";
     }
     if (!empty($filters['CardName'])) {
-        if (!empty($filterString)) $filterString .= " and ";
-        $filterString .= "startswith(CardName,'{$filters['CardName']}')";
+        $filterClauses[] = "startswith(CardName,'" . urlencode($filters['CardName']) . "')";
     }
+    $filterString = $filterClauses ? '&$filter=' . implode(' and ', $filterClauses) : '';
 
-    $filterParam = $filterString ? "&\$filter=$filterString" : "";
+    $url = $serviceLayerUrl . "BusinessPartners?\$orderby=CardCode&\$top=$pageSize&\$skip=$skip$filterString";
 
-    // URL com filtros, paginação e ordenação
-    $url = $serviceLayerUrl . "BusinessPartners?\$orderby=CardCode&\$top=$pageSize&\$skip=$skip$filterParam";
-
-    // Configurando cabeçalhos e contexto para a requisição
+    // Configuração de headers
     $headers = [
         "Content-Type: application/json",
         "Cookie: B1SESSION=$sessionId"
@@ -40,35 +41,34 @@ function getBusinessPartners($serviceLayerUrl, $sessionId, $filters, $page, $pag
     $options = [
         'http' => [
             'header' => implode("\r\n", $headers),
-            'method' => 'GET'
+            'method' => 'GET',
+            'ignore_errors' => true
         ],
         'ssl' => [
             'verify_peer' => false,
             'verify_peer_name' => false
         ]
     ];
+
+    // Requisição ao Service Layer
     $context = stream_context_create($options);
+    $result = file_get_contents($url, false, $context);
 
-    try {
-        $result = file_get_contents($url, false, $context);
-
-        if ($result === false) {
-            throw new Exception("Erro na comunicação com o Service Layer.");
-        }
-
-        $response = json_decode($result, true);
-        if (isset($response['error'])) {
-            throw new Exception("Erro do Service Layer: " . $response['error']['message']['value']);
-        }
-
-        return $response;
-    } catch (Exception $e) {
-        error_log($e->getMessage());
+    if ($result === false) {
+        error_log("Erro na requisição ao Service Layer.");
         return [];
     }
+
+    $response = json_decode($result, true);
+    if (isset($response['error'])) {
+        error_log("Erro no Service Layer: " . $response['error']['message']['value']);
+        return [];
+    }
+
+    return $response;
 }
 
-// Buscando dados dos Parceiros de Negócios
+// Busca dados
 $businessPartners = getBusinessPartners($serviceLayerUrl, $sessionId, $filters, $page, $pageSize);
 ?>
 
@@ -80,25 +80,32 @@ $businessPartners = getBusinessPartners($serviceLayerUrl, $sessionId, $filters, 
     <title>Parceiros de Negócios</title>
     <link href="./css/bootstrap.min.css" rel="stylesheet">
     <style>
+        body {
+            background: linear-gradient(to right, #74ebd5, #acb6e5);
+            color: #333;
+        }
         footer {
             margin-top: 50px;
             background-color: #333;
-            color: white;
+            color: #fff;
             padding: 10px 0;
-            position: fixed;
-            bottom: 0;
-            width: 100%;
+            text-align: center;
         }
-        body    {
-            background-color:rgba(104, 213, 235, 0.6);
+        .btn-custom {
+            background-color: #007bff;
+            color: #fff;
+            border: none;
         }
-    </style> 
+        .btn-custom:hover {
+            background-color: #0056b3;
+        }
+    </style>
 </head>
 <body>
-    <div class="container my-4">
+    <div class="container my-5">
         <h1 class="text-center mb-4">Parceiros de Negócios</h1>
 
-        <!-- Formulário de filtros -->
+        <!-- Formulário de Filtro -->
         <form class="row g-3 mb-4" method="GET">
             <div class="col-md-6">
                 <label for="CardCode" class="form-label">Código do Parceiro:</label>
@@ -109,19 +116,19 @@ $businessPartners = getBusinessPartners($serviceLayerUrl, $sessionId, $filters, 
                 <input type="text" class="form-control" name="CardName" id="CardName" value="<?= htmlspecialchars($filters['CardName']) ?>">
             </div>
             <div class="col-12 text-center">
-                <button type="submit" class="btn btn-primary">Buscar</button>
+                <button type="submit" class="btn btn-custom">Buscar</button>
             </div>
         </form>
 
-        <!-- Resultados -->
+        <!-- Tabela de Resultados -->
         <div class="table-responsive">
-            <table class="table table-striped">
+            <table class="table table-hover">
                 <thead class="table-dark">
-                <tr>
-                    <th>Código do Parceiro</th>
-                    <th>Nome do Parceiro</th>
-                    <th>Ações</th>
-                </tr>
+                    <tr>
+                        <th>Código</th>
+                        <th>Nome</th>
+                        <th>Ações</th>
+                    </tr>
                 </thead>
                 <tbody>
                     <?php if (!empty($businessPartners['value'])): ?>
@@ -130,13 +137,13 @@ $businessPartners = getBusinessPartners($serviceLayerUrl, $sessionId, $filters, 
                                 <td><?= htmlspecialchars($partner['CardCode']) ?></td>
                                 <td><?= htmlspecialchars($partner['CardName']) ?></td>
                                 <td>
-                                    <a href="view_partner.php?CardCode=<?= urlencode($partner['CardCode']) ?>" class="btn btn-info btn-sm">Visualizar</a>
+                                    <a href="view_partner.php?CardCode=<?= urlencode($partner['CardCode']) ?>" class="btn btn-info btn-sm">Detalhes</a>
                                 </td>
                             </tr>
                         <?php endforeach; ?>
                     <?php else: ?>
                         <tr>
-                            <td colspan="2" class="text-center">Nenhum parceiro encontrado.</td>
+                            <td colspan="3" class="text-center">Nenhum parceiro encontrado.</td>
                         </tr>
                     <?php endif; ?>
                 </tbody>
@@ -147,23 +154,21 @@ $businessPartners = getBusinessPartners($serviceLayerUrl, $sessionId, $filters, 
         <nav class="d-flex justify-content-center mt-4">
             <ul class="pagination">
                 <?php if ($page > 1): ?>
-                    <li class="page-item">
-                        <a class="page-link" href="?<?= http_build_query(array_merge($_GET, ['page' => $page - 1])) ?>">Anterior</a>
-                    </li>
+                    <li class="page-item"><a class="page-link" href="?<?= http_build_query(array_merge($_GET, ['page' => $page - 1])) ?>">Anterior</a></li>
                 <?php endif; ?>
                 <?php if (!empty($businessPartners['value']) && count($businessPartners['value']) === $pageSize): ?>
-                    <li class="page-item">
-                        <a class="page-link" href="?<?= http_build_query(array_merge($_GET, ['page' => $page + 1])) ?>">Próxima</a>
-                    </li>
+                    <li class="page-item"><a class="page-link" href="?<?= http_build_query(array_merge($_GET, ['page' => $page + 1])) ?>">Próxima</a></li>
                 <?php endif; ?>
             </ul>
         </nav>
-        <a href="index.php" class="btn btn-primary mt-4">Inicio</a>
-        <a href="logout.php" class="btn btn-danger mt-4">Sair</a>
+        <div class="mt-4 text-center">
+            <a href="index.php" class="btn btn-primary">Início</a>
+            <a href="logout.php" class="btn btn-danger">Sair</a>
+        </div>
     </div>
-    <b>
-        <p align="center">Desenvolvido por Alumínio Ramos</p>
-    </b>
 
+    <footer>
+        Desenvolvido por Alumínio Ramos
+    </footer>
 </body>
 </html>
