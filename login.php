@@ -147,10 +147,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     <label for="companyDB" class="form-label">Empresa:</label>
                     <select class="form-select" name="companyDB" id="companyDB" required>
                         <option selected disabled>Escolher...</option>
-                        <option value="SBOPRODRM">SBOPRODRM</option>
-                        <option value="SBOPRODGE">SBOPRODGE</option>
-                        <option value="SBOPRODHE">SBOPRODHE</option>
-                        <option value="SBOSIMURM_2604">SBOSIMURM</option>
+                        <option value="SBOPRODRM">ALUMÍNIO RAMOS</option>
+                        <option value="SBOPRODGE">GERENCIAL</option>
+                        <option value="SBOPRODHE">HELTON RAMOS</option>
+                        <option value="SBOSIMU_010125">SIMULAÇÃO</option>
                     </select>
                 </div>
                 <div class="d-grid">

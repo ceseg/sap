@@ -141,7 +141,7 @@ $trocas = getTrocas($serviceLayerUrl, $sessionId, $page, $pageSize, $filtroPedid
                 <td><?= htmlspecialchars($troca['U_Reason']) ?></td>
                 <td><?= htmlspecialchars($troca['U_Date']) ?></td>
                 <td>
-                    <a href="editar.php?Code=<?= urlencode($troca['Code']) ?>" class="btn btn-warning btn-sm">Editar</a>
+                    <a href="edit.php?Code=<?= urlencode($troca['Code']) ?>" class="btn btn-warning btn-sm">Editar</a>
                     <a href="excluir.php?Code=<?= urlencode($troca['Code']) ?>" class="btn btn-danger btn-sm" onclick="return confirm('Tem certeza que deseja excluir esta troca?')">Excluir</a>
                 </td>
             </tr>

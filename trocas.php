@@ -72,7 +72,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST')
             "Name" => $_POST['Name'] ?? '',
             "U_CardCode" => $_POST['U_CardCode'] ?? '',
             "U_CardName" => $_POST['U_CardName'] ?? '',
-            "U_SWW" => $_POST['U_SWW'] ?? '',
+            "U_SWW" => $_POST['sww'] ?? '',
             "U_ItemCode" => $_POST['U_ItemCode'] ?? '',
             "U_Description" => $_POST['U_Description'] ?? '',
             "U_Quantity" => $_POST['U_Quantity'] ?? '',
@@ -98,6 +98,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST')
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Registro de Trocas</title>
     <link href="./css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <style>
         body    {
             background-color:rgba(104, 213, 235, 0.6);
@@ -171,6 +172,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST')
     });
     </script>
 
+
 </head>
 <body>
     <div class="container my-4">
@@ -191,12 +193,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST')
                 <input type="text" class="form-control" id="U_CardName" name="U_CardName" value="<?php echo htmlspecialchars($cardName); ?>" required>
             </div>
             <div class="col-md-2">
-                <label for="U_SWW" class="form-label">Referencia do Item:</label>
-                <input type="text" class="form-control" id="U_SWW" name="U_SWW" required>
+                <label for="sww" class="form-label">Referencia do Item:</label>
+                <input type="text" class="form-control" id="sww" name="sww" onblur="handleBlur()"  placeholder="Digite o SWW" >
             </div>
             <div class="col-md-2">
                 <label for="U_ItemCode" class="form-label">Código do Item:</label>
-                <input type="text" class="form-control" id="U_ItemCode" name="U_ItemCode" required>
+                <input type="text" class="form-control" id="U_ItemCode" name="U_ItemCode"  required>
             </div>
             <div class="col-md-8">
                 <label for="U_Description" class="form-label">Descrição do Item:</label>
@@ -225,5 +227,67 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST')
     <b>
         <p align="center">Desenvolvido por Alumínio Ramos</p>
     </b>
+    <script>
+        function handleBlur() {
+        fetchItemCode();
+        fetchItemDesc();
+    }
+        function fetchItemCode() {
+            const sww = $('#sww').val();
+
+            if (sww.trim() === '') {
+                alert('Por favor, insira um SWW válido.');
+                return;
+            }
+
+            $.ajax({
+                url: 'fetch_item_code.php',
+                type: 'POST',
+                data: { sww: sww },
+                success: function(response) {
+                    const data = JSON.parse(response);
+                    if (data.success) {
+                        $('#U_ItemCode').val(data.itemCode);
+                        
+                    } else {
+                        alert(data.message);
+                        $('#U_ItemCode').val('');
+                        
+                    }
+                },
+                error: function() {
+                    alert('Erro ao buscar o Item Code. Verifique sua conexão ou consulte o administrador.');
+                }
+            });
+        }
+        function fetchItemDesc() {
+            const sww = $('#sww').val();
+
+            if (sww.trim() === '') {
+                alert('Por favor, insira um SWW válido.');
+                return;
+            }
+
+            $.ajax({
+                url: 'fetch_item_desc.php',
+                type: 'POST',
+                data: { sww: sww },
+                success: function(response) {
+                    const data = JSON.parse(response);
+                    if (data.success) {
+                        $('#U_Description').val(data.descricao);
+                        
+                    } else {
+                        alert(data.message);
+                        $('#U_U_Description').val('');
+                        
+                    }
+                },
+                error: function() {
+                    alert('Erro ao buscar o Item Code. Verifique sua conexão ou consulte o administrador.');
+                }
+            });
+        }
+    </script>
 </body>
 </html>
