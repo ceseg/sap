@@ -75,6 +75,9 @@ if (!isset($_SESSION['user_logged_in']) || $_SESSION['user_logged_in'] !== true)
                     <a class="nav-link" href="./trocas.php">Trocas</a>
                 </li>
                 <li class="nav-item">
+                    <a class="nav-link" href="./relatorio_trocas.php">Relatório de Trocas</a>
+                </li>
+                <li class="nav-item">
                     <a class="nav-link" href="./logout.php">Sair</a>
                 </li>
             </ul>
