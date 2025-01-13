@@ -8,7 +8,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     $serviceLayerUrl = "https://192.168.0.10:50000/b1s/v1/";
 
-    function authenticate($serviceLayerUrl, $username, $password, $companyDB) {
+    function authenticate($serviceLayerUrl, $username, $password, $companyDB)
+    {
         $url = $serviceLayerUrl . "Login";
         $data = [
             "UserName" => $username,
@@ -51,6 +52,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
 <!DOCTYPE html>
 <html lang="pt-BR">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -58,12 +60,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <link href="./css/bootstrap.min.css" rel="stylesheet">
     <style>
         body {
-            background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), 
-                        url('./img/background.jpg') no-repeat center center fixed;
+            background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)),
+                url('./img/background.jpg') no-repeat center center fixed;
             background-size: cover;
             color: white;
             font-family: 'Arial', sans-serif;
         }
+
         .login-container {
             max-width: 400px;
             margin: 5% auto;
@@ -72,12 +75,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             border-radius: 10px;
             box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
         }
+
         h1 {
             text-align: center;
             margin-bottom: 20px;
             font-weight: bold;
             text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
         }
+
         footer {
             margin-top: 50px;
             background-color: rgba(0, 0, 0, 0.8);
@@ -88,32 +93,46 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             width: 100%;
             text-align: center;
         }
-        .form-label, .form-select, .form-control {
+
+        .form-label,
+        .form-select,
+        .form-control {
             background: transparent;
             color: white;
         }
-        .form-control:focus, .form-select:focus {
+
+        .form-control:focus,
+        .form-select:focus {
             border-color: #007bff;
             box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
         }
 
         /* Alterações para o select */
         .form-select {
-            background-color: rgba(0, 123, 255, 0.2); /* Fundo levemente azul */
-            color: white; /* Cor do texto branco */
-            border: 1px solid #007bff; /* Borda azul */
+            background-color: rgba(0, 123, 255, 0.2);
+            /* Fundo levemente azul */
+            color: white;
+            /* Cor do texto branco */
+            border: 1px solid #007bff;
+            /* Borda azul */
         }
 
         .form-select:focus {
-            background-color: rgba(0, 123, 255, 0.5); /* Fundo azul mais escuro ao focar */
-            color: white; /* Mantém o texto branco */
-            border-color: #0056b3; /* Borda azul mais escura ao focar */
-            box-shadow: 0 0 5px rgba(0, 123, 255, 0.5); /* Efeito de luz ao redor */
+            background-color: rgba(0, 123, 255, 0.5);
+            /* Fundo azul mais escuro ao focar */
+            color: white;
+            /* Mantém o texto branco */
+            border-color: #0056b3;
+            /* Borda azul mais escura ao focar */
+            box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+            /* Efeito de luz ao redor */
         }
 
         .form-select option {
-            background-color: #333; /* Cor de fundo das opções */
-            color: white; /* Cor do texto nas opções */
+            background-color: #333;
+            /* Cor de fundo das opções */
+            color: white;
+            /* Cor do texto nas opções */
         }
 
         .btn-primary {
@@ -121,15 +140,18 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             border: none;
             transition: background-color 0.3s ease;
         }
+
         .btn-primary:hover {
             background-color: #0056b3;
         }
+
         .alert {
             text-align: center;
             font-weight: bold;
         }
     </style>
 </head>
+
 <body>
     <div class="container">
         <div class="login-container">
@@ -168,4 +190,5 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     </footer>
     <script src="./js/bootstrap.bundle.min.js"></script>
 </body>
+
 </html>

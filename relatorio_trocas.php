@@ -19,7 +19,8 @@ $filtroData = isset($_GET['data']) ? $_GET['data'] : '';
 /**
  * Função para obter trocas cadastradas com filtros.
  */
-function getTrocas($serviceLayerUrl, $sessionId, $page, $pageSize, $filtroPedido, $filtroCliente, $filtroData) {
+function getTrocas($serviceLayerUrl, $sessionId, $page, $pageSize, $filtroPedido, $filtroCliente, $filtroData)
+{
     $skip = ($page - 1) * $pageSize;
     $url = $serviceLayerUrl . "U_TROCAS?\$top=$pageSize&\$skip=$skip";
 
@@ -80,15 +81,22 @@ $trocas = getTrocas($serviceLayerUrl, $sessionId, $page, $pageSize, $filtroPedid
 
 <!DOCTYPE html>
 <html lang="pt-BR">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Trocas Cadastradas</title>
-    <link href= "./css/bootstrap.min.css" rel="stylesheet">
+    <link href="./css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body    {
+            background-color:rgba(55, 200, 230, 0.6);
+        }
+    </style>
 </head>
+
 <body>
 
-    
+
     <!-- Conteúdo Principal -->
     <div class="container my-5">
         <h1 class="text-center mb-4">Trocas Cadastradas</h1>
@@ -115,43 +123,40 @@ $trocas = getTrocas($serviceLayerUrl, $sessionId, $page, $pageSize, $filtroPedid
         <!-- Tabela de Resultados -->
         <div class="table-responsive">
             <table class="table table-striped table-hover align-middle">
-            <thead class="table-dark">
-    <tr>
-        <th>Código</th>
-        <th>Pedido</th>
-        <th>Código Cliente</th>
-        <th>Nome Cliente</th>
-        <th>SWW</th>
-        <th>Descrição</th>
-        <th>Motivo</th>
-        <th>Data</th>
-        <th>Ações</th>
-    </tr>
-</thead>
-<tbody>
-    <?php if (!empty($trocas['value'])): ?>
-        <?php foreach ($trocas['value'] as $troca): ?>
-            <tr>
-                <td><?= htmlspecialchars($troca['Code']) ?></td>
-                <td><?= htmlspecialchars($troca['Name']) ?></td>
-                <td><?= htmlspecialchars($troca['U_CardCode']) ?></td>
-                <td><?= htmlspecialchars($troca['U_CardName']) ?></td>
-                <td><?= htmlspecialchars($troca['U_SWW']) ?></td>
-                <td><?= htmlspecialchars($troca['U_Description']) ?></td>
-                <td><?= htmlspecialchars($troca['U_Reason']) ?></td>
-                <td><?= htmlspecialchars($troca['U_Date']) ?></td>
-                <td>
-                    <a href="edit.php?Code=<?= urlencode($troca['Code']) ?>" class="btn btn-warning btn-sm">Editar</a>
-                    <a href="excluir.php?Code=<?= urlencode($troca['Code']) ?>" class="btn btn-danger btn-sm" onclick="return confirm('Tem certeza que deseja excluir esta troca?')">Excluir</a>
-                </td>
-            </tr>
-        <?php endforeach; ?>
-    <?php else: ?>
-        <tr>
-            <td colspan="8" class="text-center">Nenhuma troca encontrada.</td>
-        </tr>
-    <?php endif; ?>
-</tbody>
+                <thead class="table-dark">
+                    <tr>
+                        <th>Código</th>
+                        <th>Pedido</th>
+                        <th>Código Cliente</th>
+                        <th>Nome Cliente</th>
+                        <th>SWW</th>
+                        <th>Descrição</th>
+                        <th>Quantidade</th>
+                        <th>Motivo</th>
+                        <th>Data</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <?php if (!empty($trocas['value'])): ?>
+                        <?php foreach ($trocas['value'] as $troca): ?>
+                            <tr>
+                                <td><?= htmlspecialchars($troca['Code']) ?></td>
+                                <td><?= htmlspecialchars($troca['Name']) ?></td>
+                                <td><?= htmlspecialchars($troca['U_CardCode']) ?></td>
+                                <td><?= htmlspecialchars($troca['U_CardName']) ?></td>
+                                <td><?= htmlspecialchars($troca['U_SWW']) ?></td>
+                                <td><?= htmlspecialchars($troca['U_Description']) ?></td>
+                                <td><?= htmlspecialchars($troca['U_Quantity']) ?></td>
+                                <td><?= htmlspecialchars($troca['U_Reason']) ?></td>
+                                <td><?= htmlspecialchars($troca['U_Date']) ?></td>
+                            </tr>
+                        <?php endforeach; ?>
+                    <?php else: ?>
+                        <tr>
+                            <td colspan="8" class="text-center">Nenhuma troca encontrada.</td>
+                        </tr>
+                    <?php endif; ?>
+                </tbody>
 
             </table>
         </div>
@@ -175,4 +180,5 @@ $trocas = getTrocas($serviceLayerUrl, $sessionId, $page, $pageSize, $filtroPedid
 
     <script src="./js/bootstrap.bundle.min.js"></script>
 </body>
+
 </html>
